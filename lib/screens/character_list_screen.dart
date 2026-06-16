@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/disney_character.dart';
 import '../services/disney_api_service.dart';
+import 'character_detail_screen.dart';
 
 class CharacterListScreen extends StatefulWidget {
   const CharacterListScreen({super.key});
@@ -13,8 +14,7 @@ class CharacterListScreen extends StatefulWidget {
 
 class _CharacterListScreenState
     extends State<CharacterListScreen> {
-  final DisneyApiService api =
-      DisneyApiService();
+  final DisneyApiService api = DisneyApiService();
 
   List<DisneyCharacter> characters = [];
 
@@ -31,8 +31,7 @@ class _CharacterListScreenState
 
   void loadCharacters() async {
     try {
-      final data =
-          await api.fetchCharacters();
+      final data = await api.fetchCharacters();
 
       setState(() {
         characters = data;
@@ -40,8 +39,7 @@ class _CharacterListScreenState
       });
     } catch (e) {
       setState(() {
-        error =
-            'Nie udało się pobrać danych';
+        error = 'Nie udało się pobrać danych';
         isLoading = false;
       });
     }
@@ -51,7 +49,7 @@ class _CharacterListScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Disney Characters'),
+        title: const Text('Disney Characters'),
       ),
       body: buildBody(),
     );
@@ -59,9 +57,8 @@ class _CharacterListScreenState
 
   Widget buildBody() {
     if (isLoading) {
-      return Center(
-        child:
-            CircularProgressIndicator(),
+      return const Center(
+        child: CircularProgressIndicator(),
       );
     }
 
@@ -74,21 +71,34 @@ class _CharacterListScreenState
     return ListView.builder(
       itemCount: characters.length,
       itemBuilder: (context, index) {
-        final character =
-            characters[index];
+        final character = characters[index];
 
         return Card(
-  child: ListTile(
-    leading: character.imageUrl.isNotEmpty
-        ? Image.network(
-            character.imageUrl,
-            width: 50,
-            height: 50,
-          )
-        : Icon(Icons.person),
-    title: Text(character.name),
-  ),
-);
+          child: ListTile(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      CharacterDetailScreen(
+                    characterId: character.id,
+                  ),
+                ),
+              );
+            },
+            leading: character.imageUrl.isNotEmpty
+                ? Image.network(
+                    character.imageUrl,
+                    width: 50,
+                    height: 50,
+                  )
+                : const Icon(Icons.person),
+            title: Text(character.name),
+            trailing: const Icon(
+              Icons.chevron_right,
+            ),
+          ),
+        );
       },
     );
   }

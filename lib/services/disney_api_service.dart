@@ -28,4 +28,26 @@ class DisneyApiService {
       );
     }
   }
+
+  Future<DisneyCharacter> fetchCharacterDetails(
+    int id,
+  ) async {
+    final url = Uri.parse(
+      'https://api.disneyapi.dev/character/$id',
+    );
+
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+
+      return DisneyCharacter.fromJson(
+        data['data'],
+      );
+    } else {
+      throw Exception(
+        'Nie udało się pobrać szczegółów postaci',
+      );
+    }
+  }
 }
