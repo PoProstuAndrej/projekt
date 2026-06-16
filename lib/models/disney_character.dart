@@ -28,4 +28,26 @@ class DisneyCharacter {
       ),
     );
   }
+
+  // na mape do hive
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+      'imageUrl': imageUrl,
+      'films': films,
+      'tvShows': tvShows,
+    };
+  }
+
+  // z mapy z hive
+  factory DisneyCharacter.fromMap(Map<dynamic, dynamic> map) {
+    return DisneyCharacter(
+      id: map['id'] as int,
+      name: map['name'] as String,
+      imageUrl: map['imageUrl'] as String,
+      films: List<String>.from(map['films'] ?? []),
+      tvShows: List<String>.from(map['tvShows'] ?? []),
+    );
+  }
 }

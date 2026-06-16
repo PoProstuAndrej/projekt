@@ -16,6 +16,7 @@ dependencies:
   http: ^1.2.1
   hive_ce: ^2.19.3
   hive_ce_flutter: ^2.3.3
+  google_fonts: ^8.1.0
 
 dev_dependencies:
   flutter_test:
@@ -25,3 +26,5 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/images/
